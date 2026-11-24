@@ -6,6 +6,7 @@ Design notes for the visual similarity engine. Start with
 
 | doc | read it if you want to know… |
 |---|---|
+| [usage.md](usage.md) | every CLI command, the Python API, settings, experiments |
 | [architecture.md](architecture.md) | how the modules fit together, and what is written to disk |
 | [data.md](data.md) | which data we use, how to download it, what folder layout the engine expects |
 | [search.md](search.md) | how retrieval, the [0, 1] score, explanations and out-of-distribution detection work |
@@ -28,7 +29,7 @@ every claim backed by an experiment you can re-run.
 
 ## How this maps to the lecture
 
-The deck (`../aueb_data_science_careers.html`) uses this repo as its running take-home
+The deck ([PDF](../slides/aueb_data_science_careers.pdf); the HTML version is next to it, open it in a browser) uses this repo as its running take-home
 example. Each stage of the interview framework has a place in the code:
 
 | framework stage | where it lives here |

@@ -96,17 +96,17 @@ instead of hard-coding a threshold.
 
 ## 4. With labels: precision@K
 
-The Fashion Product Images sample has clean catalogue labels (article type, colour,
-gender, usage). That enables proper metrics:
+The H&M sample has clean catalogue labels (product type, colour, graphical appearance,
+garment group). That enables proper metrics:
 
-- **precision@K by article type:** for each image, what fraction of its top K results
-  share its `articleType`? Macro-averaged over types (the sample is balanced, 50 per type).
+- **precision@K by product type:** for each image, what fraction of its top K results
+  share its `product_type_name`? Macro-averaged over types (the sample is balanced, 50 per type).
 - **precision@K by colour**, to see whether a model groups by *what* or by *colour*.
-- **a confusion table** between types (sandals vs flip flops is an honest confusion;
-  watches vs socks is not).
-- **cluster purity / ARI vs article type**, for the clustering side.
+- **a confusion table** between types (blouse vs shirt is an honest confusion;
+  bag vs sneakers is not).
+- **cluster purity / ARI vs product type**, for the clustering side.
 
-Caveat: "same article type" is only one notion of similarity. Two black backpacks share a
+Caveat: "same product type" is only one notion of similarity. Two black sweaters share a
 label with a pink one, and a shopper may want the black one first.
 
 ### Reproducing the overlay-text trap

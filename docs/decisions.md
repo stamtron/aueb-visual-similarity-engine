@@ -103,11 +103,24 @@ Indexing and querying both call `images.load_image` and `embedding.embed`. A sep
 "query preprocessing" function is the classic train/serve-skew bug: a different resize
 or colour conversion silently degrades every query. One path makes that impossible.
 
+## Known limitations
+
+- **Brute-force search** loads all embeddings in memory. That is fine up to about 10⁵
+  images; beyond that, use FAISS/HNSW.
+- **The tag vocabulary is fashion-oriented** (`tags.py`), so explanations on other
+  domains will be vague. Edit `VOCAB`, then rebuild the index: the index stores the
+  vocabulary and refuses a mismatch.
+- **K-means assumes roughly round clusters.** On this kind of data the silhouette is low
+  (about 0.15), so the clusters are useful groupings, not natural classes.
+- **Scores are calibrated per index.** A 0.9 in one catalogue is not comparable to a 0.9
+  in another.
+- **Text masking is slow** on CPU and depends on EasyOCR detection quality.
+
 ## What we would do next
 
 In the order we would do them:
 
-1. **Labelled evaluation on Fashion Product Images:** precision@K by article type
+1. **Labelled evaluation on H&M:** precision@K by product type and by colour
    ([evaluation.md](evaluation.md#4-with-labels-precisionk)).
 2. **A small human-judged set** (a few hundred query–result pairs) to check that the
    label-free metrics agree with people.

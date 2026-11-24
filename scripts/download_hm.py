@@ -183,7 +183,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"downloading {a.articles.name} (36 MB) ...")
             src.fetch_articles(a.articles)
         else:
-            print(f"{a.articles} not found (see README, 'Get the data').", file=sys.stderr)
+            print(f"{a.articles} not found (see docs/data.md).", file=sys.stderr)
             return 2
     rows = read_articles(a.articles)
     sample = stratified(rows, a.types, a.per_class, a.seed)

@@ -104,3 +104,29 @@ These figures are for CPU, about 1k images, CLIP ViT-B/32:
 | embed + text mask | ~0.3–1 s per image (OCR dominates) |
 | search, excluding query embedding | ~5 µs (one 1k×512 mat-vec) |
 | index size | ~2 KB per image |
+
+## Repository layout
+
+```
+src/vsim/
+  images.py        folder listing + ID parsing, robust path/URL loading (size cap, timeouts, any mode -> RGB)
+  models.py        CLIP / SigLIP2 / DINOv2 behind one Embedder interface, cached per process
+  embedding.py     the single embed() pipeline used everywhere
+  tags.py          zero-shot attribute tags -> explanations and cluster labels
+  calibration.py   cosine -> [0, 1] score, out-of-distribution threshold
+  textmask.py      optional OCR + inpainting text removal
+  search.py        build_index(), search(), the .npz Index
+  clustering.py    preprocess(), assign(), K selection, labelling, persistence
+  cli.py           the `vsim` command
+scripts/
+  download_hm.py       H&M (Kaggle) sample -> data/images + data/labels.csv
+  download_fashion.py  Fashion Product Images (HF) -> the same layout
+experiments/
+  eval_search.py      label-free comparison of model configurations
+  figures.py          figures for the docs / slides
+  plot_clusters.py    cluster mosaic + t-SNE map (gitignored output)
+  results/            JSON results (regenerated on H&M)
+tests/                pytest, with a fake embedder (no downloads, ~2 s)
+docs/                 design notes (start at docs/README.md)
+slides/               the lecture deck (HTML, open in a browser; PDF)
+```

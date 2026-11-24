@@ -12,7 +12,7 @@ Read this before changing code. [README.md](README.md) covers usage, and
 - **Clustering:** `preprocess` and `assign`.
 
 It is used as a worked take-home example in a university careers lecture
-(`aueb_data_science_careers.html`). Clarity and honest evaluation matter more than
+(`slides/aueb_data_science_careers.html`). Clarity and honest evaluation matter more than
 features. Keep it small, readable and runnable on a laptop CPU.
 
 ## Setup and commands
@@ -104,7 +104,7 @@ docs or commit messages.
 
 ## When you change things
 
-- Changed a CLI flag or API? Update `README.md` (the usage sections) and the relevant
+- Changed a CLI flag or API? Update `docs/usage.md` (and the README quick start if it shows it) and the relevant
   `docs/*.md`.
 - Changed defaults (model, K range, thresholds)? Re-run `experiments/eval_search.py`,
   update `experiments/results/`, and update the numbers in `docs/evaluation.md`.
