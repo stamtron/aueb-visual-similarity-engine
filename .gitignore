@@ -1,0 +1,59 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+develop-eggs/
+eggs/
+.eggs/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.ipynb_checkpoints/
+
+# --- OS / editor ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# --- Secrets ---
+.env
+kaggle.json
+
+# --- Data and artefacts (downloaded or regenerated, never committed) ---
+data/raw/
+data/images/
+experiments/cache/
+*.npz
+
+# --- Confidential take-home material: must not be published ---
+assignments/
+Data Science Challenge*.pdf
+lecture/assets/
+data/labels.csv
+data/images_fpi_old/
+data/

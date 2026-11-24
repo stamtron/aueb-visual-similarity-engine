@@ -1,0 +1,44 @@
+[project]
+name = "aueb-visual-similarity-engine"
+version = "0.1.0"
+description = "Visual similarity engine: image retrieval and clustering, a worked take-home for the AUEB MSc Data Science lecture"
+readme = "README.md"
+authors = [{ name = "stamtron" }]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "pillow>=10",
+    "requests>=2.31",
+    "scikit-learn>=1.5",
+    "torch>=2.4",
+    "torchvision>=0.19",
+    "open-clip-torch>=2.24",
+]
+
+[project.optional-dependencies]
+# OCR-based text masking (the overlay-text experiment) and pHash evaluation
+ocr = ["easyocr>=1.7", "opencv-python-headless>=4.9"]
+eval = ["imagehash>=4.3", "matplotlib>=3.8"]
+# pyarrow reads the Hugging Face parquet files in scripts/download_fashion.py;
+# kaggle fetches single H&M images in scripts/download_hm.py (the full archive is ~29 GB)
+data = ["pyarrow>=15", "kaggle>=1.6", "six"]  # kaggle 2.x imports six without declaring it
+
+[project.scripts]
+vsim = "vsim.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vsim"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

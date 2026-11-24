@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beyond the Master's — AUEB Data Science</title>
+<style>
+:root{--bg:#08111f;--panel:#101e31;--ink:#f4f7fb;--muted:#a9b8cb;--accent:#72e0c1;--line:#26384d}
+*{box-sizing:border-box}body{margin:0;background:#030914;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+.toolbar{position:fixed;z-index:5;top:14px;right:18px;display:flex;gap:8px;align-items:center}
+button{border:1px solid var(--line);background:#122238;color:var(--ink);padding:10px 14px;border-radius:10px;cursor:pointer}
+button:hover{border-color:var(--accent)}.counter{color:var(--muted);font-size:13px;min-width:70px;text-align:center}
+.deck{height:100vh;display:grid;place-items:center;padding:30px}
+.slide{display:none;position:relative;width:min(96vw, calc(96vh * 16 / 9));aspect-ratio:16/9;background:radial-gradient(circle at 90% 10%,#17334a 0,transparent 38%),linear-gradient(135deg,#0b1728,#08111f 70%);border:1px solid #24374c;border-radius:22px;padding:6.2% 7%;box-shadow:0 25px 80px #0009;overflow:hidden}
+.slide.active{display:flex;flex-direction:column}
+.slide:after{content:"";position:absolute;width:360px;height:360px;border:1px solid #72e0c11c;border-radius:50%;right:-150px;bottom:-180px;box-shadow:0 0 0 35px #72e0c10a,0 0 0 70px #72e0c107;pointer-events:none}
+.eyebrow{color:var(--accent);font-weight:750;letter-spacing:.16em;text-transform:uppercase;font-size:clamp(10px,1.15vw,15px)}
+h1{font-size:clamp(30px,5vw,62px);line-height:1.02;letter-spacing:-.045em;margin:28px 0 14px;max-width:900px}
+.subtitle{font-size:clamp(16px,2vw,25px);line-height:1.35;color:var(--muted);margin:0 0 28px;max-width:850px}
+ul{padding-left:1.2em;margin:0;max-width:860px}li{font-size:clamp(14px,1.65vw,21px);line-height:1.42;margin:0 0 13px;color:#e3ebf4}
+.tag{margin-top:auto;padding-top:20px;color:var(--accent);font-size:clamp(10px,1.15vw,14px);font-weight:750;letter-spacing:.12em}
+.foot{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;margin-top:18px;color:#8193aa;font-size:12px}
+.cover h1{font-size:clamp(42px,7vw,88px);max-width:760px;margin-top:60px}.cover .subtitle{font-size:clamp(19px,2.4vw,30px)}
+@media(max-width:650px){.deck{padding:8px}.slide{width:98vw;padding:7%}.toolbar{top:6px;right:6px}.subtitle{margin-bottom:12px}li{margin-bottom:7px}.foot{font-size:9px}}
+@media print{body{background:#fff}.toolbar{display:none}.deck{display:block;height:auto;padding:0}.slide,.slide.active{display:flex!important;width:100vw;height:56.25vw;aspect-ratio:16/9;border:0;border-radius:0;box-shadow:none;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}.slide:last-child{page-break-after:auto}}
+</style></head><body>
+<div class="toolbar"><button id="prev">←</button><span class="counter" id="counter">01 / 18</span><button id="next">→</button><button onclick="window.print()">Print / Save PDF</button></div>
+<main class="deck">
+    <section class="slide cover" data-index="0">
+      <div class="eyebrow">AUEB · MSc in Data Science</div>
+      <h1>BEYOND THE MASTER’S</h1>
+      <p class="subtitle">Career opportunities in Data Science — from research to products</p>
+      <ul><li>A practical career map, a technical interview simulation, and a real computer-vision challenge.</li></ul>
+      <div class="tag">CAREERS  /  INTERVIEWS  /  BUILDING</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>01 / 18</span></div>
+    </section>
+    <section class="slide " data-index="1">
+      <div class="eyebrow">01 · START WITH A QUESTION</div>
+      <h1>What can you become?</h1>
+      <p class="subtitle">A Master’s degree is a starting point, not a job title.</p>
+      <ul><li>Researcher? Consultant? ML Engineer? Product Data Scientist? Founder?</li><li>The interesting question is not only “What can I do?” but “What kind of problems do I want to own?”</li></ul>
+      <div class="tag">THERE IS MORE THAN ONE GOOD PATH</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>02 / 18</span></div>
+    </section>
+    <section class="slide " data-index="2">
+      <div class="eyebrow">02 · THE CAREER LANDSCAPE</div>
+      <h1>Six environments</h1>
+      <p class="subtitle">Different environments reward different strengths.</p>
+      <ul><li>ACADEMIA &amp; RESEARCH  ·  depth, discovery, publications</li><li>LARGE CONSULTING  ·  breadth, clients, transformation</li><li>SPECIALIST CONSULTING  ·  hands-on delivery, variety</li><li>PRODUCT &amp; SCALEUPS  ·  users, metrics, iteration</li><li>INDUSTRY VERTICALS  ·  domain expertise + data</li><li>ENTREPRENEURSHIP  ·  ownership, risk, distribution</li></ul>
+      <div class="tag">CAREER ENVIRONMENT ≠ JOB TITLE</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>03 / 18</span></div>
+    </section>
+    <section class="slide " data-index="3">
+      <div class="eyebrow">03 · ACADEMIA &amp; RESEARCH</div>
+      <h1>Follow the question</h1>
+      <p class="subtitle">From research assistant to PhD and beyond.</p>
+      <ul><li>Typical roles: Research Assistant · Research Engineer · PhD Candidate · Research Scientist · Postdoctoral Researcher</li><li>Where: universities, research centres, EU-funded projects, industrial R&amp;D.</li><li>Trade-offs: scientific depth and intellectual freedom versus grant cycles, fixed-term contracts and publication pressure.</li><li>Greek examples: FORTH / ICS, Athena Research Center, NCSR Demokritos.</li></ul>
+      <div class="tag">BEST FIT: CURIOSITY + PATIENCE + DEPTH</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>04 / 18</span></div>
+    </section>
+    <section class="slide " data-index="4">
+      <div class="eyebrow">04 · LARGE CONSULTING</div>
+      <h1>Solve problems across industries</h1>
+      <p class="subtitle">Data &amp; AI teams work with clients to change how organisations operate.</p>
+      <ul><li>Typical roles: Data Scientist · Data Engineer · AI/ML Consultant · Analytics Consultant · AI Strategy Consultant</li><li>Examples in Greece: EY · Accenture · Deloitte · Grant Thornton</li><li>What you gain: structured learning, client exposure, communication, delivery discipline.</li><li>Watch out: some projects involve more stakeholder work, integration and presentations than model building.</li></ul>
+      <div class="tag">BEST FIT: VARIETY + STRUCTURE + COMMUNICATION</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>05 / 18</span></div>
+    </section>
+    <section class="slide " data-index="5">
+      <div class="eyebrow">05 · SPECIALIST CONSULTANCIES</div>
+      <h1>Closer to the implementation</h1>
+      <p class="subtitle">Smaller teams can mean broader responsibility.</p>
+      <ul><li>Typical roles: Applied Data Scientist · ML Engineer · Computer Vision Engineer · AI Consultant</li><li>You may touch discovery, data preparation, modelling, deployment and client feedback in the same project.</li><li>Trade-offs: faster learning and ownership, but less formal structure and potentially less support.</li><li>Ask in interviews: who owns deployment, monitoring, data quality and the client outcome?</li></ul>
+      <div class="tag">BEST FIT: HANDS-ON + VARIETY + OWNERSHIP</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>06 / 18</span></div>
+    </section>
+    <section class="slide " data-index="6">
+      <div class="eyebrow">06 · PRODUCT COMPANIES</div>
+      <h1>Build something people use</h1>
+      <p class="subtitle">The model is one component of a product.</p>
+      <ul><li>Typical roles: Product Data Scientist · ML Engineer · Applied AI Engineer · Search / Retrieval Engineer</li><li>Examples: Omilia (conversational AI), Skroutz (commerce), Workable (HR software).</li><li>Success includes adoption, latency, reliability, user experience, experimentation and business metrics — not just offline accuracy.</li><li>A product mindset asks: who has the problem, how often, and what changes if we solve it?</li></ul>
+      <div class="tag">BEST FIT: USERS + ITERATION + MEASURABLE IMPACT</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>07 / 18</span></div>
+    </section>
+    <section class="slide " data-index="7">
+      <div class="eyebrow">07 · GREEK INDUSTRY OPPORTUNITIES</div>
+      <h1>Shipping is a data problem</h1>
+      <p class="subtitle">A strong example of domain-specific product work in Greece.</p>
+      <ul><li>DeepSea Technologies: vessel performance monitoring and optimisation.</li><li>METIS: maritime intelligence and vessel operations.</li><li>Signal Ocean: shipping-market data and B2B SaaS insights.</li><li>Potential problems: fuel prediction, voyage optimisation, anomaly detection, predictive maintenance, computer vision and decision support.</li><li>Domain knowledge can become a competitive advantage alongside technical skill.</li></ul>
+      <div class="tag">TECHNICAL SKILL × DOMAIN KNOWLEDGE</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>08 / 18</span></div>
+    </section>
+    <section class="slide " data-index="8">
+      <div class="eyebrow">08 · ENTREPRENEURSHIP</div>
+      <h1>Build your own thing</h1>
+      <p class="subtitle">A difficult path — but a real option.</p>
+      <ul><li>Start with a painful problem, not a technology looking for a problem.</li><li>Validate demand → find a first customer → build a narrow MVP → measure usage → iterate.</li><li>Beyond engineering: sales, distribution, pricing, finance, hiring and resilience.</li><li>Possible routes: technical co-founder, bootstrapped SaaS, AI consultancy evolving into a product, research spinout.</li></ul>
+      <div class="tag">THE HARDEST PART IS OFTEN DISTRIBUTION</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>09 / 18</span></div>
+    </section>
+    <section class="slide " data-index="9">
+      <div class="eyebrow">09 · CHOOSING A DIRECTION</div>
+      <h1>Choose your trade-offs</h1>
+      <p class="subtitle">There is no universally best first job.</p>
+      <ul><li>Do you want depth or breadth?</li><li>Do you prefer a defined role or ambiguity?</li><li>Do you want to work on one product or many client problems?</li><li>Do you enjoy research, implementation, communication, or commercial ownership?</li><li>Look for manager quality, mentorship, production exposure and learning — not only title.</li></ul>
+      <div class="tag">OPTIMISE FOR THE NEXT 2–3 YEARS OF LEARNING</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>10 / 18</span></div>
+    </section>
+    <section class="slide " data-index="10">
+      <div class="eyebrow">10 · A REAL AI ORGANISATION</div>
+      <h1>Satalia: algorithms → decisions</h1>
+      <p class="subtitle">An enterprise AI company within WPP.</p>
+      <ul><li>Founded in 2008 as a UCL spinout; acquired by WPP in 2021.</li><li>Combines machine learning and optimisation to improve business decisions and operational efficiency.</li><li>Historical product examples: Satalia Delivery (routing and scheduling) and Satalia Workforce (workforce allocation).</li><li>Teaching point: the value is not “a model”; it is a better decision embedded in an operating process.</li></ul>
+      <div class="tag">PREDICTION IS NOT THE SAME AS DECISION</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>11 / 18</span></div>
+    </section>
+    <section class="slide " data-index="11">
+      <div class="eyebrow">11 · TECHNICAL INTERVIEW</div>
+      <h1>The case</h1>
+      <p class="subtitle">You receive a collection of images. Build a system that helps users find similar images and discover groups.</p>
+      <ul><li>You have a folder of images. Some may be duplicates, near-duplicates or visually related.</li><li>Design an image retrieval system, an image clustering system, or both.</li><li>Explain your assumptions before choosing a model.</li><li>What would you build first if you had one afternoon?</li></ul>
+      <div class="tag">THINK ALOUD · CLARIFY · BASELINE · EVALUATE</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>12 / 18</span></div>
+    </section>
+    <section class="slide " data-index="12">
+      <div class="eyebrow">12 · INTERVIEW FRAMEWORK</div>
+      <h1>From vague brief to solution</h1>
+      <p class="subtitle">A strong candidate structures the problem before coding.</p>
+      <ul><li>1  Clarify: image types, scale, labels, latency, user intent, constraints.</li><li>2  Inspect: examples, duplicates, resolution, class imbalance, data leakage.</li><li>3  Baseline: pretrained visual embeddings + cosine similarity.</li><li>4  Evaluate: Recall@K / Precision@K / mAP for retrieval; cluster quality + human inspection for clustering.</li><li>5  Operationalise: index, API, latency, monitoring, failure cases, feedback loop.</li></ul>
+      <div class="tag">SHOW REASONING, NOT JUST LIBRARY KNOWLEDGE</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>13 / 18</span></div>
+    </section>
+    <section class="slide " data-index="13">
+      <div class="eyebrow">13 · IMAGE RETRIEVAL</div>
+      <h1>Find the nearest neighbours</h1>
+      <p class="subtitle">Represent each image as a vector, then search the vector space.</p>
+      <ul><li>Image → pretrained encoder → embedding vector → normalisation → vector index → top-K neighbours.</li><li>Start with a pretrained model (e.g. ResNet / ViT / CLIP depending on the task).</li><li>Use cosine similarity or dot product; compare exact search with an approximate nearest-neighbour index as scale grows.</li><li>Evaluate with labelled relevance judgments where possible. Inspect qualitative examples and hard negatives.</li></ul>
+      <div class="tag">RETRIEVAL = QUERY → RANKED RESULTS</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>14 / 18</span></div>
+    </section>
+    <section class="slide " data-index="14">
+      <div class="eyebrow">14 · IMAGE CLUSTERING</div>
+      <h1>Discover the structure</h1>
+      <p class="subtitle">Use the same embeddings — but ask a different question.</p>
+      <ul><li>Image → encoder → embeddings → dimensionality reduction (for visualisation) → clustering.</li><li>Try K-Means when K is meaningful; HDBSCAN / DBSCAN when density and outliers matter.</li><li>Inspect cluster examples, size distribution, outliers and stability.</li><li>Do not assume clusters are ground-truth classes. Similarity is task-dependent.</li></ul>
+      <div class="tag">CLUSTERING = ORGANISE → INSPECT → INTERPRET</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>15 / 18</span></div>
+    </section>
+    <section class="slide " data-index="15">
+      <div class="eyebrow">15 · THE REPOSITORY</div>
+      <h1>One repo, two tracks</h1>
+      <p class="subtitle">A clean, reproducible teaching project on your personal GitHub.</p>
+      <ul><li>image-retrieval-clustering/</li><li>├── data/              # instructions / sample manifest; no private data</li><li>├── notebooks/         # exploration and visual inspection</li><li>├── src/               # embeddings, retrieval, clustering, evaluation</li><li>├── configs/           # model and experiment settings</li><li>├── tests/             # deterministic checks</li><li>├── reports/           # metrics and example outputs</li><li>└── README.md           # setup, task, results, limitations</li><li>Keep retrieval and clustering as separate experiments sharing one embedding pipeline.</li></ul>
+      <div class="tag">REPRODUCIBLE · EXPLAINABLE · PORTFOLIO-READY</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>16 / 18</span></div>
+    </section>
+    <section class="slide " data-index="16">
+      <div class="eyebrow">16 · TAKEAWAYS</div>
+      <h1>Your degree opens doors.</h1>
+      <p class="subtitle">What you build, learn and take ownership of determines where they lead.</p>
+      <ul><li>Explore environments, not only job titles.</li><li>Build evidence: projects, experiments, writing and collaboration.</li><li>Learn to translate technical work into user and business outcomes.</li><li>Stay curious. Your first role is a starting point, not a permanent identity.</li></ul>
+      <div class="tag">THANK YOU · QUESTIONS?</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>17 / 18</span></div>
+    </section>
+    <section class="slide " data-index="17">
+      <div class="eyebrow">SOURCES · STARTING POINTS</div>
+      <h1>Explore the ecosystem</h1>
+      <p class="subtitle">Examples and vacancy evidence checked in November 2026.</p>
+      <ul><li>FORTH / ICS jobs: ics.forth.gr/jobs</li><li>EY AI Consultant: careers.ey.com</li><li>Accenture Greece careers: accenture.com/gr-en/careers/jobsearch</li><li>Elevate Greece startup registry: registry.elevategreece.gov.gr</li><li>DeepSea: deepsea.ai · METIS: metis.tech · Signal Ocean: signalocean.com</li><li>Omilia: omilia.com · Satalia: satalia.com/about-us</li><li>WPP acquisition announcement (23 Aug 2021): wpp.com/en/news/2021/08/wpp-acquires-leading-ai-technology-company-satalia</li></ul>
+      <div class="tag">COMPANY EXAMPLES ARE ILLUSTRATIVE, NOT ENDORSEMENTS</div>
+      <div class="foot"><span>AUEB · MSc Data Science</span><span>18 / 18</span></div>
+    </section></main>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let current=0;
+function show(n){current=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===current));document.getElementById('counter').textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')}
+document.getElementById('prev').onclick=()=>show(current-1);document.getElementById('next').onclick=()=>show(current+1);
+document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(current+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(current-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});
+show(0);
+</script></body></html>
