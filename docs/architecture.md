@@ -128,5 +128,5 @@ experiments/
   results/            JSON results (regenerated on H&M)
 tests/                pytest, with a fake embedder (no downloads, ~2 s)
 docs/                 design notes (start at docs/README.md)
-slides/               the lecture deck (HTML, open in a browser; PDF)
+slides/               the two lecture decks: careers, interview example (HTML + PDF)
 ```

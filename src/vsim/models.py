@@ -5,7 +5,7 @@ Two families are supported:
 * `open_clip` models (CLIP, SigLIP2, ...): image *and* text encoders, so they can also
   do zero-shot tagging for explanations and cluster labels.
 * DINOv2: a self-supervised, image-only model. It reads rendered text far less than CLIP,
-  which matters on this dataset (see README, "the overlay-text trap").
+  which matters on this dataset (see docs/evaluation.md, "the banner trap").
 
 Models are cached per process (`get_embedder`), so a search or an assignment pays the
 load cost once, never per image or per result.

@@ -20,6 +20,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from vsim.calibration import calibrate, loo_neighbour_sims, nn1_threshold, reference_quantiles
+from vsim.clustering import store_root
 from vsim.images import list_images
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -91,7 +92,7 @@ def save(img_or_fig, name):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("folder")
-    ap.add_argument("--dataset", help="clustering dataset dir (contains summary.json)")
+    ap.add_argument("--dataset", help="dataset id printed by `vsim cluster` (or its folder)")
     a = ap.parse_args()
     files = list_images(a.folder)
     by_id = {f.id: f.path for f in files}
@@ -105,10 +106,12 @@ def main():
 
     # 2. Near-duplicates: same photo reused (pHash groups, the biggest first). Computed,
     #    not hand-picked, so the figure works on any folder.
-    from eval_search import phash_groups  # same directory; imagehash is only needed here
+    from eval_search import fingerprint, near_dup_groups  # same directory; needs imagehash
+
+    fp = fingerprint(files)  # only embeddings of *this* folder, never a stale cache
 
     groups = [[ids[n] for n in g]
-              for g in sorted(phash_groups(files), key=len, reverse=True)[:4]]
+              for g in sorted(near_dup_groups(files), key=len, reverse=True)[:4]]
     for g in groups:
         save(sheet([(by_id[i], f"#{i}", None) for i in g], len(g), 240),
              f"neardup_{g[0]}.jpg")
@@ -116,20 +119,18 @@ def main():
     # 3. Query strips: the first image of a near-duplicate group + its top 5 per cached
     #    config. Its group mates are framed "good", anything else "bad".
     traps = {g[0]: set(g[1:]) for g in groups[:2]}
-    for cache in sorted(CACHE.glob("*.npy")):
+    for cache in sorted(CACHE.glob(f"*_{fp}.npy")):
         emb = np.load(cache)
-        if len(emb) != len(ids):
-            continue
         sims = emb @ emb.T
         for q, mates in traps.items():
             order = [j for j in np.argsort(-sims[pos[q]]) if j != pos[q]][:5]
             cells = [(by_id[q], f"query #{q}", None)]
             cells += [(by_id[ids[j]], f"#{ids[j]}  cos {sims[pos[q], j]:.2f}",
                        "good" if ids[j] in mates else "bad") for j in order]
-            save(sheet(cells, 6, 200), f"trap_{q}_{cache.stem}.jpg")
+            save(sheet(cells, 6, 200), f"trap_{q}_{cache.stem.removesuffix('_' + fp)}.jpg")
 
     # 4. Calibration curve (CLIP)
-    clip = CACHE / "clip-b32.npy"
+    clip = CACHE / f"clip-b32_{fp}.npy"
     if clip.exists():
         emb = np.load(clip)
         ref = reference_quantiles(emb)
@@ -169,7 +170,8 @@ def main():
 
     # 5. Clustering: K selection (two panels, one axis each) + cluster grids
     if a.dataset:
-        s = json.loads((Path(a.dataset) / "summary.json").read_text())
+        d = Path(a.dataset) if Path(a.dataset).is_dir() else store_root() / a.dataset
+        s = json.loads((d / "summary.json").read_text())
         t = s["k_selection"]
         ks = [r["k"] for r in t]
         fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 3.6))

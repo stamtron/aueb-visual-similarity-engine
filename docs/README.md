@@ -6,6 +6,7 @@ Design notes for the visual similarity engine. Start with
 
 | doc | read it if you want to know… |
 |---|---|
+| [getting-started.md](getting-started.md) | how to set everything up from scratch on Windows or macOS, in VS Code |
 | [usage.md](usage.md) | every CLI command, the Python API, settings, experiments |
 | [architecture.md](architecture.md) | how the modules fit together, and what is written to disk |
 | [data.md](data.md) | which data we use, how to download it, what folder layout the engine expects |
@@ -29,8 +30,10 @@ every claim backed by an experiment you can re-run.
 
 ## How this maps to the lecture
 
-The deck ([PDF](../slides/aueb_data_science_careers.pdf); the HTML version is next to it, open it in a browser) uses this repo as its running take-home
-example. Each stage of the interview framework has a place in the code:
+The interview deck ([HTML](../slides/vsim_interview_example.html),
+[PDF](../slides/vsim_interview_example.pdf)) uses
+this repo as its running take-home example; the careers deck
+([HTML](../slides/aueb_data_science_careers.html), [PDF](../slides/aueb_data_science_careers.pdf)) covers the career paths. Each stage of the interview framework has a place in the code:
 
 | framework stage | where it lives here |
 |---|---|

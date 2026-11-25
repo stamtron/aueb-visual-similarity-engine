@@ -28,6 +28,13 @@ re-ran this get the same clusters? Small K values are usually both stable and th
 separated. The K-selection table is stored in `summary.json` and printed by
 `vsim clusters`, so the choice is auditable.
 
+On the H&M sample (996 images), no K reached ARI 0.8, so the fallback picked K = 7,
+the most stable (ARI 0.76; silhouette 0.11–0.15 across K). That is a finding in itself:
+20 product types do not form 20 clean groups in CLIP space. The 7 clusters are broader
+families (tops, dresses, lower body, underwear, shoes, accessories). On the full 998
+images the same rule picks K = 9 (ARI 0.72). Two images moved the answer, so when no K is
+stable, treat the chosen K as one reasonable cut, not a property of the data.
+
 **Why the range starts at 4:** two or three clusters are too coarse to be useful for
 browsing. You can force any K with `--k` (or `k=`). That changes the dataset id
 (`_k<K>` suffix).

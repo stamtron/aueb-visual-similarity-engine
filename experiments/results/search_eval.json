@@ -1,0 +1,202 @@
+[
+  {
+    "config": "CLIP ViT-B/32",
+    "model": "clip-b32",
+    "text_mask": false,
+    "n_images": 998,
+    "near_dup_recall": null,
+    "near_dup_found": 0,
+    "near_dup_slots": 0,
+    "aug_recall@1": {
+      "greyscale": 0.94,
+      "downscale 128px": 0.94,
+      "JPEG q10": 0.76,
+      "mirror": 1.0,
+      "centre crop 70%": 0.82
+    },
+    "banner_trap": {
+      "recall@1": 0.9,
+      "banner_wins": 0.1
+    },
+    "precision": {
+      "type@5": 0.546,
+      "type@10": 0.518,
+      "colour@5": 0.218,
+      "colour@10": 0.192
+    },
+    "nn1": {
+      "min": 0.727,
+      "p2": 0.789,
+      "median": 0.932
+    },
+    "ood": {
+      "random noise": {
+        "top1_cos": 0.67,
+        "score": 0.0,
+        "flagged": true
+      },
+      "solid blue": {
+        "top1_cos": 0.782,
+        "score": 0.03,
+        "flagged": true
+      },
+      "black text on white": {
+        "top1_cos": 0.555,
+        "score": 0.0,
+        "flagged": true
+      }
+    },
+    "embed_s": 8.2,
+    "search_us": 10.9
+  },
+  {
+    "config": "CLIP + text masking",
+    "model": "clip-b32",
+    "text_mask": true,
+    "n_images": 998,
+    "near_dup_recall": null,
+    "near_dup_found": 0,
+    "near_dup_slots": 0,
+    "aug_recall@1": {
+      "greyscale": 0.92,
+      "downscale 128px": 0.94,
+      "JPEG q10": 0.78,
+      "mirror": 0.98,
+      "centre crop 70%": 0.8
+    },
+    "banner_trap": {
+      "recall@1": 0.92,
+      "banner_wins": 0.04
+    },
+    "precision": {
+      "type@5": 0.546,
+      "type@10": 0.512,
+      "colour@5": 0.215,
+      "colour@10": 0.187
+    },
+    "nn1": {
+      "min": 0.742,
+      "p2": 0.829,
+      "median": 0.935
+    },
+    "ood": {
+      "random noise": {
+        "top1_cos": 0.727,
+        "score": 0.001,
+        "flagged": true
+      },
+      "solid blue": {
+        "top1_cos": 0.871,
+        "score": 0.195,
+        "flagged": false
+      },
+      "black text on white": {
+        "top1_cos": 0.929,
+        "score": 0.705,
+        "flagged": false
+      }
+    },
+    "embed_s": 109.7,
+    "search_us": 10.9
+  },
+  {
+    "config": "DINOv2 S/14",
+    "model": "dinov2-s14",
+    "text_mask": false,
+    "n_images": 998,
+    "near_dup_recall": null,
+    "near_dup_found": 0,
+    "near_dup_slots": 0,
+    "aug_recall@1": {
+      "greyscale": 1.0,
+      "downscale 128px": 1.0,
+      "JPEG q10": 0.92,
+      "mirror": 1.0,
+      "centre crop 70%": 0.98
+    },
+    "banner_trap": {
+      "recall@1": 1.0,
+      "banner_wins": 0.0
+    },
+    "precision": {
+      "type@5": 0.624,
+      "type@10": 0.591,
+      "colour@5": 0.148,
+      "colour@10": 0.141
+    },
+    "nn1": {
+      "min": 0.289,
+      "p2": 0.533,
+      "median": 0.841
+    },
+    "ood": {
+      "random noise": {
+        "top1_cos": 0.281,
+        "score": 0.003,
+        "flagged": true
+      },
+      "solid blue": {
+        "top1_cos": 0.15,
+        "score": 0.0,
+        "flagged": true
+      },
+      "black text on white": {
+        "top1_cos": 0.168,
+        "score": 0.0,
+        "flagged": true
+      }
+    },
+    "embed_s": 13.3,
+    "search_us": 7.7
+  },
+  {
+    "config": "DINOv2 + text masking",
+    "model": "dinov2-s14",
+    "text_mask": true,
+    "n_images": 998,
+    "near_dup_recall": null,
+    "near_dup_found": 0,
+    "near_dup_slots": 0,
+    "aug_recall@1": {
+      "greyscale": 1.0,
+      "downscale 128px": 0.98,
+      "JPEG q10": 0.9,
+      "mirror": 0.98,
+      "centre crop 70%": 0.96
+    },
+    "banner_trap": {
+      "recall@1": 0.98,
+      "banner_wins": 0.0
+    },
+    "precision": {
+      "type@5": 0.62,
+      "type@10": 0.585,
+      "colour@5": 0.145,
+      "colour@10": 0.135
+    },
+    "nn1": {
+      "min": 0.323,
+      "p2": 0.538,
+      "median": 0.836
+    },
+    "ood": {
+      "random noise": {
+        "top1_cos": 0.453,
+        "score": 0.027,
+        "flagged": true
+      },
+      "solid blue": {
+        "top1_cos": 0.677,
+        "score": 0.217,
+        "flagged": false
+      },
+      "black text on white": {
+        "top1_cos": 0.738,
+        "score": 0.366,
+        "flagged": false
+      }
+    },
+    "embed_s": 116.3,
+    "search_us": 7.4
+  }
+]

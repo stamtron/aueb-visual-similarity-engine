@@ -111,8 +111,8 @@ def main(argv: list[str] | None = None) -> int:
 
     files = sorted(a.src.glob("**/*.parquet"))
     if not files:
-        print(f"No parquet files under {a.src}. Download them first (see README, "
-              "'Get the data').", file=sys.stderr)
+        print(f"No parquet files under {a.src}. Download them first (see docs/data.md).",
+              file=sys.stderr)
         return 2
 
     rows = read_labels(files)

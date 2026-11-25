@@ -12,7 +12,8 @@ Read this before changing code. [README.md](README.md) covers usage, and
 - **Clustering:** `preprocess` and `assign`.
 
 It is used as a worked take-home example in a university careers lecture
-(`slides/aueb_data_science_careers.html`). Clarity and honest evaluation matter more than
+(`slides/aueb_data_science_careers.html`) and walked through in
+`slides/vsim_interview_example.html`. Clarity and honest evaluation matter more than
 features. Keep it small, readable and runnable on a laptop CPU.
 
 ## Setup and commands

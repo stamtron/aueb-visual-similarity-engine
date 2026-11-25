@@ -8,10 +8,12 @@ built.
 
 | | CLIP ViT-B/32 | DINOv2 S/14 |
 |---|---|---|
-| "same photo" recall (original data) | 0.44 | 0.85 |
+| same product type in top 5 (H&M) | 0.55 | 0.62 |
+| same colour in top 5 (H&M) | 0.22 | 0.15 |
+| a bannered stranger beats the real match | 10% of queries | 0% |
+| "same photo" recall (original catalogue) | 0.44 | 0.85 |
 | zero-shot tags (explanations, cluster names) | yes | no |
-| embed time, 485 images, CPU | 6 s | 8 s |
-| overlay-text sensitivity | high | low |
+| embed time, 998 images, CPU | 8 s | 13 s |
 
 **Chosen:** CLIP as the default, because one model gives us embeddings *and* text-based
 tags, which the brief asks for ("explain the result", "name the cluster").
@@ -27,15 +29,16 @@ candidate. It is not a default until it has numbers.
 
 ## Text masking: optional, off by default
 
-OCR + inpainting fixes CLIP's text problem (recall 0.44 → 0.85) but makes embedding
-~27× slower, pulls in EasyOCR and OpenCV, and broke one OOD check
-([evaluation.md](evaluation.md)). DINOv2 gets the same recall for free. So masking is an
+OCR + inpainting fixes most of CLIP's text problem (same-photo recall 0.44 → 0.85 on
+the original catalogue; banner wins 10% → 4% on H&M), but makes embedding 13–27× slower,
+pulls in EasyOCR and OpenCV, and stops two of the three OOD probes being flagged
+([evaluation.md](evaluation.md)). DINOv2 does better for free. So masking is an
 `ocr` extra and a flag, kept mainly to *show* the experiment.
 
 ## Search: brute-force cosine, no vector database
 
 A matrix–vector product over a few thousand 512-d vectors takes microseconds (we measured
-4–5 µs). An ANN index (FAISS, HNSW) or a vector DB would add a dependency, a build step
+8–21 µs over 998 vectors). An ANN index (FAISS, HNSW) or a vector DB would add a dependency, a build step
 and approximate results, for no measurable gain at this size.
 
 **When we would change it:** above roughly 1 M vectors, or with a latency budget per

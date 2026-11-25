@@ -1,7 +1,8 @@
 # Usage
 
 The full reference for the command line, the Python API and the settings. To install the
-engine and get data, see the [README](../README.md#quick-start) and [data.md](data.md).
+engine and get data, see the [README](../README.md#quick-start) and [data.md](data.md). If
+you are new to the terminal or on Windows, start with [getting-started.md](getting-started.md).
 
 ## Install
 

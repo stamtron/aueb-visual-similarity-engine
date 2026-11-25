@@ -7,8 +7,11 @@
 ![no vector DB](https://img.shields.io/badge/vector%20DB-not%20needed-555)
 ![License: MIT](https://img.shields.io/badge/license-MIT-555)
 
-This is the worked take-home example for the AUEB MSc Data Science careers lecture
-([slides, PDF](slides/aueb_data_science_careers.pdf)). It is small enough to read in an
+This is the worked take-home example for the AUEB MSc Data Science careers lecture. There are
+two decks: career options ([HTML](slides/aueb_data_science_careers.html),
+[PDF](slides/aueb_data_science_careers.pdf)) and the interview example
+([HTML](slides/vsim_interview_example.html), [PDF](slides/vsim_interview_example.pdf)), which
+explains the assignment and walks through this repo. It is small enough to read in an
 evening, and every design claim is backed by an experiment you can re-run.
 
 ## What it does
@@ -18,29 +21,30 @@ each with a **score in [0, 1]** and an **explanation** of what they share:
 
 ```console
 $ vsim search dress.jpg -k 3 --index index.npz     # a dress that is not in the index
-707363002  0.608  both: studio product photo, floral; different format (studio product photo vs sale banner)
-569523002  0.532  both: studio product photo, close-up of a product, floral
-666352003  0.523  both: studio product photo, close-up of a product, dress, blue
+611584005  0.715  both: close-up of a product, dress, blue, floral; different format (studio product photo vs sale banner)
+707363002  0.602  both: studio product photo, floral; different format (studio product photo vs sale banner)
+569523002  0.523  both: studio product photo, close-up of a product, floral
 ```
 
 **🗂️ Cluster.** Group the folder into **automatically named** clusters (it picks K
 itself), then file new images into a cluster, or flag them as **outliers**:
 
 ```console
-$ vsim cluster data/images                          # 923 H&M photos
-ds_1abc6c700def80b5
-$ vsim clusters ds_1abc6c700def80b5                 # K=9, chosen automatically (trimmed)
-[0] studio product photo: jewellery  (n=54)
-[2] studio product photo: dress & tunic  (n=146)
-[4] studio product photo: sneakers  (n=46)
-[7] close-up of a product: shorts & trousers  (n=132)
+$ vsim cluster data/images                          # 996 H&M photos
+ds_f2e779a3d6f530eb
+$ vsim clusters ds_f2e779a3d6f530eb                 # K=7, chosen automatically (trimmed)
+[1] studio product photo: jewellery & handbag  (n=116)
+[2] studio product photo: sneakers  (n=45)
+[3] studio product photo: dress & tunic  (n=203)
+[5] studio product photo: bra & underwear briefs  (n=83)
+[6] close-up of a product: shorts & trousers  (n=136)
 ...
-$ vsim assign sneaker.jpg ds_1abc6c700def80b5      # a sneaker that was not clustered
+$ vsim assign sneaker.jpg ds_f2e779a3d6f530eb      # a sneaker that was not clustered
 studio product photo: sneakers
 ```
 
-Real output on 923 H&M catalogue photos (IDs are H&M article ids), on a laptop CPU:
-indexing took about 17 s.
+Real output on 996 H&M catalogue photos (IDs are H&M article ids), on a laptop CPU:
+indexing took about 12 s. The two queries were held out of the folder.
 
 ## How it works
 
@@ -69,7 +73,9 @@ The reasoning behind each choice is in [docs/](docs/README.md).
 
 ## Quick start
 
-You need Python 3.10+ and [uv](https://docs.astral.sh/uv/).
+You need [uv](https://docs.astral.sh/uv/); it installs Python 3.12 for you. **New to the
+terminal, or on Windows?** Follow [docs/getting-started.md](docs/getting-started.md): it
+goes step by step from installing VS Code to your first search.
 
 ```bash
 git clone https://github.com/stamtron/aueb-visual-similarity-engine.git
@@ -92,27 +98,30 @@ The full CLI, the Python API and the settings are in [docs/usage.md](docs/usage.
 
 ## The interesting part
 
-**CLIP reads text.** On catalogue images with overlay text ("SALE -50%"), two
-*unrelated* banners with similar text become nearest neighbours, while the *same photo*
-with a different banner does not. We found this with label-free checks (near-duplicate
-recall, augmentation recall, out-of-domain probes), then measured two fixes (CPU):
+**CLIP reads text.** It was trained on image–caption pairs, so on catalogue images with
+overlay text it can match the *banner* instead of the product. We stamp the same
+"SALE -50%" strip on 50 products and query with 50 other bannered products, then
+measure fixes on 998 H&M photos, against the catalogue labels (CPU):
 
-| configuration | near-duplicate recall | time to embed the folder |
-|---|---|---|
-| CLIP (baseline) | 0.44 | 6 s |
-| CLIP + text masking (OCR + inpainting) | 0.85 | 162 s (~27× slower) |
-| DINOv2 (image-only, self-supervised) | 0.85 | 8 s |
+| configuration | a bannered stranger beats the real match | same product type in top 5 | time to embed the folder |
+|---|---|---|---|
+| CLIP (baseline) | 10% of queries | 0.55 | 8 s |
+| CLIP + text masking (OCR + inpainting) | 4% | 0.55 | 110 s (~13× slower) |
+| DINOv2 (image-only, self-supervised) | **0%** | **0.62** | 13 s |
 
-CLIP stays the default because its zero-shot tags power the explanations and the cluster
-names; DINOv2 is one flag away (`--model dinov2-s14`). These numbers come from the original
-take-home images, and they will be re-measured on H&M.
+Masking also stops the engine from flagging some junk inputs: blank-after-inpainting
+looks like a white studio shot. CLIP stays the default because its zero-shot tags power
+the explanations and the cluster names, and it groups better by colour; DINOv2 is one
+flag away (`--model dinov2-s14`).
 
-How we evaluate without labels, and what we found: [docs/evaluation.md](docs/evaluation.md).
+How we evaluate, with and without labels, and what we found:
+[docs/evaluation.md](docs/evaluation.md).
 
 ## Documentation
 
 | doc | read it for |
 |---|---|
+| [getting-started.md](docs/getting-started.md) | step-by-step setup on Windows or macOS with VS Code, for terminal beginners |
 | [usage.md](docs/usage.md) | install options, every command, the Python API, settings |
 | [data.md](docs/data.md) | getting the H&M sample (or a no-account alternative) |
 | [architecture.md](docs/architecture.md) | modules, on-disk formats, repo layout |

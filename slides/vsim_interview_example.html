@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The interview example — AUEB Data Science</title>
+<style>
+:root{--bg:#08111f;--panel:#101e31;--ink:#f4f7fb;--muted:#a9b8cb;--accent:#72e0c1;--line:#26384d}
+*{box-sizing:border-box}body{margin:0;background:#030914;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+.toolbar{position:fixed;z-index:5;top:14px;right:18px;display:flex;gap:8px;align-items:center}
+button{border:1px solid var(--line);background:#122238;color:var(--ink);padding:10px 14px;border-radius:10px;cursor:pointer}
+button:hover{border-color:var(--accent)}.counter{color:var(--muted);font-size:13px;min-width:70px;text-align:center}
+.deck{height:100vh;display:grid;place-items:center;padding:30px}
+.slide{display:none;position:relative;width:min(96vw, calc(96vh * 16 / 9));aspect-ratio:16/9;background:radial-gradient(circle at 90% 10%,#17334a 0,transparent 38%),linear-gradient(135deg,#0b1728,#08111f 70%);border:1px solid #24374c;border-radius:22px;padding:6.2% 7%;box-shadow:0 25px 80px #0009;overflow:hidden}
+.slide.active{display:flex;flex-direction:column}
+.slide:after{content:"";position:absolute;width:360px;height:360px;border:1px solid #72e0c11c;border-radius:50%;right:-150px;bottom:-180px;box-shadow:0 0 0 35px #72e0c10a,0 0 0 70px #72e0c107;pointer-events:none}
+.eyebrow{color:var(--accent);font-weight:750;letter-spacing:.16em;text-transform:uppercase;font-size:clamp(10px,1.15vw,15px)}
+h1{font-size:clamp(30px,5vw,62px);line-height:1.02;letter-spacing:-.045em;margin:28px 0 14px;max-width:900px}
+.subtitle{font-size:clamp(16px,2vw,25px);line-height:1.35;color:var(--muted);margin:0 0 28px;max-width:850px}
+ul{padding-left:1.2em;margin:0;max-width:860px}li{font-size:clamp(14px,1.65vw,21px);line-height:1.42;margin:0 0 13px;color:#e3ebf4}
+.tag{margin-top:auto;padding-top:20px;color:var(--accent);font-size:clamp(10px,1.15vw,14px);font-weight:750;letter-spacing:.12em}
+.foot{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;margin-top:18px;color:#8193aa;font-size:12px}
+.cover h1{font-size:clamp(42px,7vw,88px);max-width:760px;margin-top:60px}.cover .subtitle{font-size:clamp(19px,2.4vw,30px)}
+@media(max-width:650px){.deck{padding:8px}.slide{width:98vw;padding:7%}.toolbar{top:6px;right:6px}.subtitle{margin-bottom:12px}li{margin-bottom:7px}.foot{font-size:9px}}
+@page{size:13.333in 7.5in;margin:0}@media print{body{background:#fff}.toolbar{display:none}.deck{display:block;height:auto;padding:0}.slide,.slide.active{display:flex!important;flex-direction:column;width:100vw;height:56.25vw;aspect-ratio:16/9;border:0;border-radius:0;box-shadow:none;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}.slide:last-child{page-break-after:auto}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:4%;align-items:start}
+.cols ul{max-width:none}
+.card{background:#0e1c2f;border:1px solid var(--line);border-radius:14px;padding:4% 5%}
+.card h3{margin:0 0 10px;color:var(--accent);font-size:clamp(12px,1.4vw,18px);letter-spacing:.04em}
+.card li{font-size:clamp(12px,1.4vw,18px);margin-bottom:8px}
+pre{background:#050d18;border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:0 0 14px;
+  font:clamp(10px,1.2vw,15px)/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#d6e2ef;white-space:pre;overflow:hidden}
+pre .c{color:#7f93ab}pre .k{color:var(--accent)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);font-size:.92em}
+table{border-collapse:collapse;width:100%;font-size:clamp(11px,1.35vw,17px);margin:4px 0 12px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);color:#e3ebf4}
+th{color:var(--muted);font-weight:600;font-size:.86em;letter-spacing:.03em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.best td{color:var(--accent)}
+.flow{display:flex;align-items:center;gap:1.2%;flex-wrap:wrap;margin:6px 0 20px}
+.flow .b{background:#0e1c2f;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:clamp(11px,1.3vw,17px)}
+.flow .b.hi{border-color:var(--accent);color:var(--accent)}
+.flow .a{color:var(--muted)}
+.note{color:var(--muted);font-size:clamp(11px,1.2vw,15px);margin:4px 0 0}
+.slide h1{margin:18px 0 10px}.slide .subtitle{margin-bottom:20px}
+</style></head><body>
+<div class="toolbar"><button id="prev">←</button><span class="counter" id="counter">01 / 24</span><button id="next">→</button><button onclick="window.print()">Print / Save PDF</button></div>
+<main class="deck">
+        <section class="slide cover" data-index="0">
+      <div class="eyebrow">AUEB · MSc in Data Science · Deck 2</div>
+      <h1>THE INTERVIEW EXAMPLE</h1>
+      <p class="subtitle">A take-home, built end to end: a small visual similarity engine</p>
+      <ul><li>The brief, what it really asks, how to approach it, and one worked solution with honest numbers.</li><li>Code: github.com/stamtron/aueb-visual-similarity-engine</li></ul>
+      <div class="tag">BRIEF  /  APPROACH  /  BUILD  /  EVALUATE</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>01 / 24</span></div>
+    </section>
+    <section class="slide " data-index="1">
+      <div class="eyebrow">01 · HOW TAKE-HOMES WORK</div>
+      <h1>A small project, a big signal</h1>
+      <p class="subtitle">Many data science loops include one: a short brief, a few days, a repo, then a discussion.</p>
+      <ul><li>You get a deliberately vague problem and a folder of data. No one tells you which model to use.</li><li>You hand in code that a reviewer must be able to <b>install and run</b>, plus a short write-up.</li><li>The follow-up interview is about <b>your decisions</b>: why this model, how you know it works, what breaks.</li><li>Time-box it. A clean, honest baseline beats an unfinished clever system.</li></ul>
+      <div class="tag">THE REPO IS YOUR ANSWER · THE INTERVIEW IS THE DEFENCE</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>02 / 24</span></div>
+    </section>
+    <section class="slide " data-index="2">
+      <div class="eyebrow">02 · THE CASE</div>
+      <h1>The brief, as you receive it</h1>
+      <p class="subtitle">You are given a folder of product images. Build two things.</p>
+      <div class="cols"><div class="card"><h3>1 · SEARCH</h3><ul><li>Given a query image (a path or a URL), return the <b>K most similar</b> images.</li><li>Each result has a <b>score in [0, 1]</b> and an <b>explanation</b> of why it matched.</li></ul></div><div class="card"><h3>2 · CLUSTERING</h3><ul><li>Group the folder into clusters with <b>human-readable names</b>.</li><li>Then put a <b>new image</b> into a cluster, or call it an <b>outlier</b>.</li></ul></div></div><p class="note">No labels are provided. No GPU is assumed. Someone else has to run your code.</p>
+      <div class="tag">TWO FEATURES · ONE FOLDER · NO LABELS</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>03 / 24</span></div>
+    </section>
+    <section class="slide " data-index="3">
+      <div class="eyebrow">03 · WHY IMAGE RETRIEVAL MATTERS</div>
+      <h1>Search by picture, not by keyword</h1>
+      <p class="subtitle">Users often cannot describe what they want, but they can show it.</p>
+      <div class="cols"><div class="card"><h3>CUSTOMER-FACING</h3><ul><li><b>Visual shopping:</b> photograph a jacket, find it or similar ones (Google Lens, Pinterest Lens, ASOS Style Match).</li><li><b>"More like this":</b> similar-item rails on product pages when an item is out of stock.</li><li><b>Real estate, travel:</b> find listings or hotels that look like a photo you liked.</li></ul></div><div class="card"><h3>BEHIND THE SCENES</h3><ul><li><b>Duplicate listings:</b> marketplaces catch the same item uploaded twice or re-used stolen photos.</li><li><b>Trust &amp; safety:</b> match uploads against known harmful or copyrighted images (e.g. PhotoDNA-style hashing).</li><li><b>Medicine, manufacturing:</b> "show me past cases or defects that look like this one".</li></ul></div></div>
+      <div class="tag">RETRIEVAL = A QUERY → RANKED, EXPLAINABLE RESULTS</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>04 / 24</span></div>
+    </section>
+    <section class="slide " data-index="4">
+      <div class="eyebrow">04 · WHY IMAGE CLUSTERING MATTERS</div>
+      <h1>Find structure no one has labelled</h1>
+      <p class="subtitle">Most image collections arrive without labels. Clustering is how you see what is in them.</p>
+      <div class="cols"><div class="card"><h3>ORGANISE</h3><ul><li><b>Catalogue taxonomy:</b> a retailer onboards 50,000 supplier photos with messy or missing categories.</li><li><b>Photo libraries:</b> group a media archive or phone gallery into themes.</li><li><b>Inspection:</b> drone or hull-inspection images grouped by defect type (shipping, energy, infrastructure).</li></ul></div><div class="card"><h3>SPEED UP PEOPLE</h3><ul><li><b>Labelling:</b> label one cluster at a time instead of one image at a time.</li><li><b>Data quality:</b> spot junk, duplicates and mislabelled images before training a model.</li><li><b>New arrivals:</b> route each new image to a team or flag it as an <b>outlier</b> for review.</li></ul></div></div>
+      <div class="tag">CLUSTERING = ORGANISE → INSPECT → ACT</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>05 / 24</span></div>
+    </section>
+    <section class="slide " data-index="5">
+      <div class="eyebrow">05 · THE ASSIGNMENT, PRECISELY</div>
+      <h1>Four functions are the contract</h1>
+      <p class="subtitle">Write the interface down first. It forces the hard questions early.</p>
+      <pre><span class='c'># search</span>
+<span class='k'>build_index</span>(folder, index_path)      -> path of the written index
+<span class='k'>search</span>(url, k, index_path)           -> [(id, score, explanation), ...]
+
+<span class='c'># clustering</span>
+<span class='k'>preprocess</span>(folder)                   -> dataset_id
+<span class='k'>assign</span>(url, dataset_id)             -> cluster label, or "outlier"</pre><ul><li>IDs come from file names (<code>123.jpg</code> → <code>123</code>), never from list positions.</li><li><code>preprocess</code> persists its result: the id lets you come back later without recomputing.</li><li><code>assign</code> on the same image twice must give the same answer: idempotent.</li></ul>
+      <div class="tag">INPUTS · OUTPUTS · WHAT PERSISTS</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>06 / 24</span></div>
+    </section>
+    <section class="slide " data-index="6">
+      <div class="eyebrow">06 · WHAT THE BRIEF LEAVES OPEN</div>
+      <h1>Clarify before you code</h1>
+      <p class="subtitle">Every one of these changes the design. Ask, or state your assumption in the README.</p>
+      <div class="cols"><div class="card"><h3>THE PROBLEM</h3><ul><li>What does <b>similar</b> mean: same photo? same product type? same colour or style?</li><li>What is a <b>score of 0.8</b> supposed to mean to a user?</li><li>How many clusters is useful, and who reads the names?</li></ul></div><div class="card"><h3>THE CONSTRAINTS</h3><ul><li>Scale: 1,000 images or 10 million? That decides the index.</li><li>Latency and hardware: laptop CPU or GPU cluster?</li><li>Data quirks: duplicates, overlay text, corrupt files, mixed formats?</li></ul></div></div>
+      <div class="tag">AMBIGUITY IS PART OF THE TEST</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>07 / 24</span></div>
+    </section>
+    <section class="slide " data-index="7">
+      <div class="eyebrow">07 · WHAT IS BEING GRADED</div>
+      <h1>Reasoning, not library knowledge</h1>
+      <p class="subtitle">Reviewers look for evidence that you can be trusted with a real problem.</p>
+      <ul><li><b>Runs first time:</b> one install command, tests that pass without downloads.</li><li><b>Baseline first:</b> pretrained embeddings + cosine before anything clever.</li><li><b>Evaluation:</b> numbers you can re-run, even without labels.</li><li><b>Honesty:</b> limitations and failure cases written down, not hidden.</li><li><b>Code quality:</b> small modules, clear names, safe file handling.</li></ul>
+      <div class="tag">CLARIFY · INSPECT · BASELINE · EVALUATE · OPERATIONALISE</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>08 / 24</span></div>
+    </section>
+    <section class="slide " data-index="8">
+      <div class="eyebrow">08 · THE DATA</div>
+      <h1>998 H&M catalogue photos</h1>
+      <p class="subtitle">A public stand-in for a private brief: the H&M Personalized Fashion dataset on Kaggle.</p>
+      <ul><li>20 product types × 50 articles, one colour variant per product, resized to ≤ 512 px.</li><li>Clean studio shots on white: no overlay text, no reused photos.</li><li>Labels (product type, colour) exist, but the engine <b>never sees them</b>. They are used only to evaluate.</li><li>One script downloads the sample. The images are never committed: competition rules.</li></ul>
+      <div class="tag">INSPECT THE DATA BEFORE YOU TRUST ANY METRIC</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>09 / 24</span></div>
+    </section>
+    <section class="slide " data-index="9">
+      <div class="eyebrow">09 · ARCHITECTURE</div>
+      <h1>One path for every image</h1>
+      <p class="subtitle">Indexing, querying, clustering and assignment all decode and embed the same way.</p>
+      <div class="flow"><span class="b">folder or URL</span><span class="a">→</span><span class="b hi">load_image()</span><span class="a">→</span><span class="b hi">embed()<br>CLIP or DINOv2</span><span class="a">→</span><span class="b">index.npz</span><span class="a">/</span><span class="b">clusters</span></div><ul><li>Two preprocessing paths (one for the index, one for queries) is the classic <b>train/serve skew</b> bug.</li><li>Everything on disk is <code>.npz</code> + JSON: no pickle, so loading a file cannot run code.</li><li>Writes go to a temp file, then rename: a crash never leaves a half-written index.</li><li>Heavy optional parts (OCR, plotting) are imported only when used.</li></ul>
+      <div class="tag">SMALL · EXPLICIT · RUNS ON A LAPTOP</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>10 / 24</span></div>
+    </section>
+    <section class="slide " data-index="10">
+      <div class="eyebrow">10 · SEARCH</div>
+      <h1>Embeddings + brute-force cosine</h1>
+      <p class="subtitle">Represent each image as a vector; the nearest vectors are the most similar images.</p>
+      <ul><li>CLIP ViT-B/32 turns each image into 512 numbers, normalised to length 1.</li><li>A query is one matrix-vector product: <b>8–21 µs</b> over 998 images on a CPU.</li><li>No vector database: below about 10⁵ images it adds a service and buys nothing.</li><li>Embedding the whole folder takes about <b>8 s</b> on a laptop.</li></ul>
+      <div class="tag">THE SIMPLEST THING THAT IS FAST ENOUGH</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>11 / 24</span></div>
+    </section>
+    <section class="slide " data-index="11">
+      <div class="eyebrow">11 · THE SCORE</div>
+      <h1>Raw cosine is not a score</h1>
+      <p class="subtitle">The brief asks for [0, 1]. Cosine is technically in range, but it does not mean anything to a user.</p>
+      <table><tr><th>CLIP on H&M</th><th class='n'>cosine</th></tr><tr><td>random noise vs. its nearest catalogue image</td><td class='n'>0.67</td></tr><tr><td>2nd percentile of real nearest-neighbour pairs</td><td class='n'>0.79</td></tr><tr><td>median nearest-neighbour pair</td><td class='n'>0.93</td></tr></table><ul><li>Calibrate per index: score = share of the catalogue's real neighbour pairs below this cosine.</li><li>0.9 now means "closer than 90% of real pairs". The ranking never changes.</li><li>Below the 2nd percentile, the query is flagged as <b>out of distribution</b>.</li></ul>
+      <div class="tag">MONOTONIC · PER CATALOGUE · PER MODEL</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>12 / 24</span></div>
+    </section>
+    <section class="slide " data-index="12">
+      <div class="eyebrow">12 · EXPLANATIONS</div>
+      <h1>Why did this match?</h1>
+      <p class="subtitle">CLIP also understands text, so we can ask it zero-shot questions about each image.</p>
+      <pre>611584005  0.715  both: close-up of a product, dress, blue, floral
+707363002  0.602  both: studio product photo, floral
+569523002  0.523  both: studio product photo, close-up of a product, floral</pre><ul><li>A fixed vocabulary of tags: format, garment, colour, pattern.</li><li>The explanation lists the tags the query and the result share, and what differs.</li><li>The same tags name the clusters later: one model, two uses.</li></ul>
+      <div class="tag">REAL OUTPUT · A DRESS THAT WAS NOT IN THE INDEX</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>13 / 24</span></div>
+    </section>
+    <section class="slide " data-index="13">
+      <div class="eyebrow">13 · CLUSTERING</div>
+      <h1>Choose K by stability</h1>
+      <p class="subtitle">k-means on the same embeddings, for K = 4…12, five random seeds each.</p>
+      <ul><li>Silhouette is low and flat on product photos (0.11–0.15): "maximise silhouette" picks noise.</li><li>Better question: <b>would a colleague who re-ran this get the same clusters?</b> Measure seed-to-seed agreement (ARI).</li><li>Rule: among K with ARI ≥ 0.8, take the best silhouette; otherwise the most stable K.</li><li>On H&M no K reaches 0.8. With 996 images the fallback picks K = 7; with 998 it picks K = 9.</li><li>That is a finding: 20 product types do not form 20 clean groups.</li></ul>
+      <div class="tag">THE K TABLE IS SAVED, SO THE CHOICE IS AUDITABLE</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>14 / 24</span></div>
+    </section>
+    <section class="slide " data-index="14">
+      <div class="eyebrow">14 · NAMES AND NEW IMAGES</div>
+      <h1>Name by lift, assign by neighbours</h1>
+      <div class="cols"><div class="card"><h3>NAMING A CLUSTER</h3><ul><li>Format with the highest mean tag probability.</li><li>Garments with the biggest <b>lift</b>: cluster mean minus dataset mean.</li><li>Without lift, "dress" would name every cluster.</li><li>e.g. <code>studio product photo: sneakers</code></li></ul></div><div class="card"><h3>ASSIGNING AN IMAGE</h3><ul><li>Same bytes seen before? Return the stored answer.</li><li>Best cosine below the 2nd-percentile threshold → <b>outlier</b>.</li><li>Else the cluster with the best mean of its top-3 members.</li><li>Append to <code>additions.jsonl</code>; later images see it.</li></ul></div></div>
+      <div class="tag">IDEMPOTENT · PERSISTED · NO RE-CLUSTERING</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>15 / 24</span></div>
+    </section>
+    <section class="slide " data-index="15">
+      <div class="eyebrow">15 · EVALUATION WITHOUT LABELS</div>
+      <h1>Build tests where you know the answer</h1>
+      <p class="subtitle">No labels? Create queries whose right answer you know.</p>
+      <ul><li><b>Augmentation recall:</b> greyscale, downscale, JPEG q10, mirror, crop. The original must come back first.</li><li><b>The banner trap:</b> stamp a red "SALE -50%" strip on 50 products as distractors, query with 50 others wearing it. Does the text beat the product?</li><li><b>Near-duplicates (pHash):</b> on H&M it chains 805 white-background shots into 20 fake groups, so the script reports n/a.</li><li><b>Sanity:</b> noise, a blue square and black text on white must be flagged as outliers.</li></ul>
+      <div class="tag">CHECK YOUR LABELLER BEFORE YOU TRUST ITS METRIC</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>16 / 24</span></div>
+    </section>
+    <section class="slide " data-index="16">
+      <div class="eyebrow">16 · WITH LABELS</div>
+      <h1>precision@K against the catalogue</h1>
+      <p class="subtitle">Share of the top 5 with the same label, averaged per class. Chance ≈ 0.05.</p>
+      <table><tr><th>config</th><th class='n'>type P@5</th><th class='n'>colour P@5</th><th class='n'>aug R@1</th><th class='n'>banner wins</th><th class='n'>OOD flagged</th><th class='n'>embed</th></tr><tr><td>CLIP ViT-B/32</td><td class='n'>0.55</td><td class='n'><b>0.22</b></td><td class='n'>0.89</td><td class='n'>10%</td><td class='n'>3/3</td><td class='n'>8 s</td></tr><tr><td>CLIP + text masking</td><td class='n'>0.55</td><td class='n'>0.21</td><td class='n'>0.88</td><td class='n'>4%</td><td class='n'>1/3</td><td class='n'>110 s</td></tr><tr><td>DINOv2 S/14</td><td class='n'><b>0.62</b></td><td class='n'>0.15</td><td class='n'><b>0.98</b></td><td class='n'><b>0%</b></td><td class='n'>3/3</td><td class='n'>13 s</td></tr><tr><td>DINOv2 + text masking</td><td class='n'>0.62</td><td class='n'>0.14</td><td class='n'>0.96</td><td class='n'>0%</td><td class='n'>1/3</td><td class='n'>116 s</td></tr></table><ul><li>DINOv2 groups by <b>what</b> it is; CLIP groups by <b>colour</b>. Which one a shopper wants is a product decision.</li></ul>
+      <div class="tag">998 IMAGES · LAPTOP CPU · RE-RUN WITH ONE COMMAND</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>17 / 24</span></div>
+    </section>
+    <section class="slide " data-index="17">
+      <div class="eyebrow">17 · THE INTERESTING PART</div>
+      <h1>CLIP reads text</h1>
+      <p class="subtitle">It was trained on image–caption pairs. On catalogues with banners, it matches the banner.</p>
+      <div class="cols"><div class="card"><h3>ON THE ORIGINAL CATALOGUE</h3><ul><li>485 images, many with real overlay text.</li><li>Same photo, different banner: CLIP found the pair only <b>44%</b> of the time.</li><li>OCR + inpainting the text before embedding: <b>85%</b>.</li><li>DINOv2, no OCR at all: <b>85%</b>.</li></ul></div><div class="card"><h3>REPRODUCED ON H&amp;M</h3><ul><li>No real text, so we add a synthetic banner.</li><li>A bannered stranger beats the real match in <b>10%</b> of CLIP queries.</li><li>Masking: 4%. DINOv2: <b>0%</b>.</li><li>Masking is ~13× slower and turns inpainted junk into a "white studio shot".</li></ul></div></div>
+      <div class="tag">FIND THE FAILURE · MEASURE IT · COMPARE FIXES</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>18 / 24</span></div>
+    </section>
+    <section class="slide " data-index="18">
+      <div class="eyebrow">18 · DECISIONS</div>
+      <h1>Why CLIP is still the default</h1>
+      <p class="subtitle">Winning one metric is not the same as being the right choice.</p>
+      <ul><li>CLIP's zero-shot tags power the explanations and the cluster names, with no second model.</li><li>It groups better by colour, which shoppers often care about.</li><li>DINOv2 is one flag away: <code>vsim index … --model dinov2-s14</code>.</li><li>Text masking stays as an option for catalogues that really have banners; the cost is written down.</li><li>Every trade-off lives in <code>docs/decisions.md</code>, so a reviewer can disagree with a reason, not a guess.</li></ul>
+      <div class="tag">STATE THE TRADE-OFF · LET THE READER DISAGREE</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>19 / 24</span></div>
+    </section>
+    <section class="slide " data-index="19">
+      <div class="eyebrow">19 · ENGINEERING</div>
+      <h1>Small things reviewers notice</h1>
+      <ul><li><code>uv sync</code> → <code>pytest</code> passes in ~2 s: a fake embedder, no network, no model download.</li><li>Bug fixes come with a test that fails before the fix.</li><li>Index metadata (model, options, tag vocabulary) travels with the index; an old index fails loudly.</li><li>The dataset id is a content hash: change one pixel, get a new id. Stale results are never reused.</li><li>No pickle, atomic writes, duplicate IDs are an error.</li></ul>
+      <div class="tag">BORING ON PURPOSE</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>20 / 24</span></div>
+    </section>
+    <section class="slide " data-index="20">
+      <div class="eyebrow">20 · THE REPOSITORY</div>
+      <h1>What the hand-in looks like</h1>
+      <pre>src/vsim/       images · embedding · models · tags · calibration
+                search · clustering · textmask · cli
+tests/          pytest, fake embedder, synthetic images
+experiments/    eval_search.py, figures; results/*.json committed
+scripts/        data download, kept out of the package
+docs/           getting-started · usage · data · architecture · search
+                clustering · evaluation · decisions
+README.md       what it does, quick start, the interesting result</pre><ul><li>The README is a landing page; the reasoning lives in <code>docs/</code>.</li><li><code>docs/getting-started.md</code>: setup from zero on Windows or macOS, in VS Code. Your reviewer may not live in a terminal.</li><li><code>AGENTS.md</code> lists the invariants, for human and AI contributors alike.</li></ul>
+      <div class="tag">REPRODUCIBLE · EXPLAINABLE · PORTFOLIO-READY</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>21 / 24</span></div>
+    </section>
+    <section class="slide " data-index="21">
+      <div class="eyebrow">21 · WHAT WE DID NOT DO</div>
+      <h1>Limitations are part of the answer</h1>
+      <p class="subtitle">Say what you would do next, and why you did not do it yet.</p>
+      <ul><li><b>Human relevance judgements:</b> a few hundred graded query–result pairs. The gold standard.</li><li><b>Online metrics:</b> click-through and add-to-cart would replace all of the offline numbers.</li><li><b>Scale:</b> 998 vectors say nothing about 10 M. Then: an ANN index, sharding, batch embedding.</li><li><b>Clustering in production:</b> re-cluster when additions pass ~10–20%; let curators rename clusters.</li><li><b>Calibration UX:</b> a good match can score 0.09 on a tight catalogue. Honest, but it reads as pessimistic.</li></ul>
+      <div class="tag">KNOWING THE LIMITS IS A SENIOR SKILL</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>22 / 24</span></div>
+    </section>
+    <section class="slide " data-index="22">
+      <div class="eyebrow">22 · THE FOLLOW-UP INTERVIEW</div>
+      <h1>Questions to prepare for</h1>
+      <ul><li>Why this model? What would make you switch?</li><li>How do you know search is good without labels?</li><li>What happens at 10 million images? At 100 queries per second?</li><li>A user says the results are wrong. How do you debug it?</li><li>What would you build next with one more week?</li></ul>
+      <div class="tag">IF YOU CAN ANSWER THESE, YOU UNDERSTOOD YOUR OWN PROJECT</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>23 / 24</span></div>
+    </section>
+    <section class="slide " data-index="23">
+      <div class="eyebrow">23 · TAKEAWAYS</div>
+      <h1>Build it so someone else can trust it</h1>
+      <p class="subtitle">The model was the easy part.</p>
+      <ul><li>Turn a vague brief into a written contract and stated assumptions.</li><li>Start with a pretrained baseline; spend the time on evaluation.</li><li>Invent tests with known answers when you have no labels.</li><li>Find one real failure, measure it, and compare fixes on cost as well as accuracy.</li><li>Try it: <code>github.com/stamtron/aueb-visual-similarity-engine</code>, then follow <code>docs/getting-started.md</code>.</li></ul>
+      <div class="tag">THANK YOU · QUESTIONS?</div>
+      <div class="foot"><span>AUEB · MSc Data Science · the interview example</span><span>24 / 24</span></div>
+    </section></main>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let current=0;
+function show(n){current=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===current));document.getElementById('counter').textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')}
+document.getElementById('prev').onclick=()=>show(current-1);document.getElementById('next').onclick=()=>show(current+1);
+document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(current+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(current-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});
+show(0);
+</script></body></html>
